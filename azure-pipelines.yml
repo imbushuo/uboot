@@ -10,7 +10,7 @@ steps:
   displayName: 'Update APT sources'
 
 # Travis have this by default, because we preinstalled build-essential
-- script: sudo apt install uuid-dev flex bison build-essential gcc-arm-linux-gnueabi
+- script: sudo apt install uuid-dev flex bison build-essential gcc-arm-linux-gnueabi gcc-arm-linux-gnueabihf
   displayName: 'Install VSTS dependencies'
 
 # Configure and build U-Boot
