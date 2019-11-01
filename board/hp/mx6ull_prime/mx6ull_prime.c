@@ -16,6 +16,7 @@
 #include <asm/mach-imx/mxc_i2c.h>
 #include <asm/io.h>
 #include <common.h>
+#include <dm/uclass.h>
 #include <fsl_esdhc.h>
 #include <i2c.h>
 #include <linux/sizes.h>
@@ -266,74 +267,7 @@ static iomux_v3_cfg_t const lcd_pads[] = {
 	MX6_PAD_CSI_DATA01__GPIO4_IO22 | MUX_PAD_CTRL(NO_PAD_CTRL),
 	MX6_PAD_CSI_DATA02__GPIO4_IO23 | MUX_PAD_CTRL(NO_PAD_CTRL),
 	MX6_PAD_LCD_RESET__GPIO3_IO04 | MUX_PAD_CTRL(NO_PAD_CTRL),
-
-	MX6_PAD_LCD_RESET__GPIO3_IO04 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART1_CTS_B__GPIO1_IO18 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART1_RTS_B__GPIO1_IO19 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART2_TX_DATA__GPIO1_IO20 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART2_RX_DATA__GPIO1_IO21 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART2_CTS_B__GPIO1_IO22 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART2_RTS_B__GPIO1_IO23 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART3_TX_DATA__GPIO1_IO24 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART3_RX_DATA__GPIO1_IO25 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART3_CTS_B__GPIO1_IO26 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART3_RTS_B__GPIO1_IO27 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART4_TX_DATA__GPIO1_IO28 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART4_RX_DATA__GPIO1_IO29 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART5_TX_DATA__GPIO1_IO30 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_UART5_RX_DATA__GPIO1_IO31 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_RX_DATA0__GPIO2_IO00 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_RX_DATA1__GPIO2_IO01 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_RX_EN__GPIO2_IO02 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_TX_DATA0__GPIO2_IO03 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_TX_DATA1__GPIO2_IO04 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_TX_EN__GPIO2_IO05 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_TX_CLK__GPIO2_IO06 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET1_RX_ER__GPIO2_IO07 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_RX_DATA0__GPIO2_IO08 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_RX_DATA1__GPIO2_IO09 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_RX_EN__GPIO2_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_TX_DATA0__GPIO2_IO11 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_TX_DATA1__GPIO2_IO12 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_TX_EN__GPIO2_IO13 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_TX_CLK__GPIO2_IO14 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_ENET2_RX_ER__GPIO2_IO15 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_SD1_CMD__GPIO2_IO16 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_SD1_CLK__GPIO2_IO17 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_SD1_DATA0__GPIO2_IO18 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_SD1_DATA1__GPIO2_IO19 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_SD1_DATA2__GPIO2_IO20 | MUX_PAD_CTRL(NO_PAD_CTRL),
 	MX6_PAD_SD1_DATA3__GPIO2_IO21 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_RE_B__GPIO4_IO00 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_WE_B__GPIO4_IO01 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA00__GPIO4_IO02 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA01__GPIO4_IO03 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA02__GPIO4_IO04 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA03__GPIO4_IO05 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA04__GPIO4_IO06 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA05__GPIO4_IO07 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA06__GPIO4_IO08 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DATA07__GPIO4_IO09 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_ALE__GPIO4_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_WP_B__GPIO4_IO11 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_READY_B__GPIO4_IO12 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_CE0_B__GPIO4_IO13 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_CE1_B__GPIO4_IO14 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_CLE__GPIO4_IO15 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_NAND_DQS__GPIO4_IO16 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_MCLK__GPIO4_IO17 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_PIXCLK__GPIO4_IO18 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_VSYNC__GPIO4_IO19 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_HSYNC__GPIO4_IO20 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA00__GPIO4_IO21 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA01__GPIO4_IO22 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA02__GPIO4_IO23 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA03__GPIO4_IO24 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA04__GPIO4_IO25 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA05__GPIO4_IO26 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA06__GPIO4_IO27 | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_CSI_DATA07__GPIO4_IO28 | MUX_PAD_CTRL(NO_PAD_CTRL),
-
 };
 
 struct lcd_panel_info_t {
@@ -347,6 +281,9 @@ struct lcd_panel_info_t {
 #define LCD_SCK IMX_GPIO_NR(4, 21)
 #define LCD_SDA IMX_GPIO_NR(4, 23)
 
+void lcd_reset(void);
+void lcd_exit_standby(void);
+
 void lcd_send_byte(unsigned char b) {
 	gpio_set_value(LCD_CS, 0);
 	for (int i = 0; i < 8; i++) {
@@ -358,11 +295,63 @@ void lcd_send_byte(unsigned char b) {
 	gpio_set_value(LCD_CS, 1);
 }
 
+void lcd_reset()
+{
+	gpio_request(IMX_GPIO_NR(3, 4), "lcd reset");
+
+	/* Reset the screen */
+	gpio_direction_output(IMX_GPIO_NR(3, 4) , 1);
+	udelay(12000);
+	gpio_direction_output(IMX_GPIO_NR(3, 4) , 0);
+	udelay(12000);
+	gpio_direction_output(IMX_GPIO_NR(3, 4) , 1);
+
+	/* The controller needs 120ms to recover from reset */
+	mdelay(120);
+}
+
+void lcd_exit_standby()
+{
+	/* ili9322_power_on */
+	lcd_send_byte(0x05);
+	lcd_send_byte(0xef);
+
+	/* The controller needs 120ms to recover from reset */
+	mdelay(120);
+
+	lcd_send_byte(0x30);
+	lcd_send_byte(0x0d);
+}
+
 void do_enable_parallel_lcd(struct display_info_t const *dev)
 {
+	int ret = 0, busno = 0, chip_addr = 0x08, data_addr = 0x4c;
+	uint8_t write_byte = 0x1f;
+	struct udevice *i2cbus;
+	struct udevice *i2cdev;
+
 	enable_lcdif_clock(dev->bus, 1);
 
 	SETUP_IOMUX_PADS(lcd_pads);
+
+	/* Set LDO1 voltage to 3.3V: LDO1_VOLT at 0x4c, value 0x1f */
+	ret = uclass_get_device_by_seq(UCLASS_I2C, busno, &i2cbus);
+	if (ret) {
+		debug("%s: No I2C bus %d foune\n", __func__, busno);
+		return;
+	}
+
+	ret = i2c_get_chip(i2cbus, chip_addr, 1, &i2cdev);
+	if (ret) {
+		debug("%s: Failed to get chip at %d\n", __func__, chip_addr);
+		return;
+	}
+
+	ret = dm_i2c_write(i2cdev, data_addr, &write_byte, 1);
+	if (ret) {
+		debug("%s: Failed to write I2C \n", __func__);
+		return;
+	}
 
 	/* Power up the LCD */
 	gpio_request(IMX_GPIO_NR(4, 19), "lcd backlight");
@@ -377,13 +366,15 @@ void do_enable_parallel_lcd(struct display_info_t const *dev)
 	gpio_request(LCD_SDA, "lcd sda");
 	gpio_direction_output(LCD_SDA, 1);
 
-	gpio_request(IMX_GPIO_NR(3, 4), "lcd reset");
-	gpio_direction_output(IMX_GPIO_NR(3, 4) , 1);
+	lcd_reset();
 
+	/* ili9322_seq_vcom */
 	lcd_send_byte(0x01);
 	lcd_send_byte(0x14);
 	lcd_send_byte(0x02);
-	lcd_send_byte(0x34);
+	lcd_send_byte(0x3a);
+
+	/* ili9322_seq_gamma */
 	lcd_send_byte(0x10);
 	lcd_send_byte(0xa7);
 	lcd_send_byte(0x11);
@@ -400,6 +391,9 @@ void do_enable_parallel_lcd(struct display_info_t const *dev)
 	lcd_send_byte(0x18);
 	lcd_send_byte(0x17);
 	lcd_send_byte(0x62);
+
+	/* ili9322_exit_standby */
+	lcd_exit_standby();
 }
 
 struct display_info_t const displays[] = {{
@@ -412,15 +406,16 @@ struct display_info_t const displays[] = {{
 		.name		= "PRIMELCD",
 		.xres           = 320,
 		.yres           = 240,
-		.pixclock       = 29850,
-		.left_margin    = 32,
-		.right_margin   = 32,
-		.upper_margin   = 20,
-		.lower_margin   = 20,
-		.hsync_len      = 10,
-		.vsync_len      = 10,
+		.pixclock       = 55555,
+		.left_margin    = 71,
+		.right_margin   = 100,
+		.upper_margin   = 6,
+		.lower_margin   = 17,
+		.hsync_len      = 1,
+		.vsync_len      = 1,
 		.sync           = 0,
-		.vmode          = FB_VMODE_NONINTERLACED
+		.vmode          = FB_VMODE_NONINTERLACED,
+		.serial_rgb		= 1
 } } };
 size_t display_count = ARRAY_SIZE(displays);
 #endif

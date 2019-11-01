@@ -610,6 +610,7 @@ struct fb_videomode {
 	u32 sync;
 	u32 vmode;
 	u32 flag;
+	u32 serial_rgb;
 };
 
 int board_video_skip(void);

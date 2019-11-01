@@ -65,7 +65,7 @@
 		"\0" \
 	"initrd_addr=0x86800000\0" \
 	"initrd_high=0xffffffff\0" \
-	"bootcmd_mfg=run mfgtool_args;bootz ${loadaddr} ${initrd_addr} ${fdt_addr};\0" \
+	"bootcmd_mfg=run mfgtool_args;bmp display ${loadaddr} 0 0;\0" \
 
 #if defined(CONFIG_NAND_BOOT)
 #define CONFIG_EXTRA_ENV_SETTINGS \
@@ -78,9 +78,7 @@
 		"root=ubi0:rootfs rootfstype=ubifs "		     \
 		BOOTARGS_CMA_SIZE \
 		"mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),1m(misc),-(rootfs)\0"\
-	"bootcmd=nand read ${loadaddr} 0x400000 0x800000;"\
-		"nand read ${fdt_addr} 0xc00000 0x100000;"\
-		"bootz ${loadaddr} - ${fdt_addr}\0"
+	"bootcmd=bmp display ${loadaddr} 0 0\0"
 
 #else
 #define CONFIG_EXTRA_ENV_SETTINGS \

@@ -36,6 +36,13 @@
 
 #define	PS2KHZ(ps)	(1000000000UL / (ps))
 
+#define CTRL_DATA_SELECT		(1 << 16)
+#define CTRL_DATA_SWIZZLE(x)	(((x) & 0x3) << 14)
+#define CTRL_SET_BUS_WIDTH(x)		(((x) & 0x3) << 10)
+#define CTRL_GET_BUS_WIDTH(x)		(((x) >> 10) & 0x3)
+#define CTRL_SET_WORD_LENGTH(x)		(((x) & 0x3) << 8)
+#define CTRL_GET_WORD_LENGTH(x)		(((x) >> 8) & 0x3)
+
 static GraphicDevice panel;
 struct mxs_dma_desc desc;
 
@@ -101,10 +108,19 @@ static void mxs_lcd_init(GraphicDevice *panel,
 	mxs_reset_block(&regs->hw_lcdif_ctrl_reg);
 
 	switch (bpp) {
+	case 32:
 	case 24:
-		word_len = LCDIF_CTRL_WORD_LENGTH_24BIT;
-		bus_width = LCDIF_CTRL_LCD_DATABUS_WIDTH_24BIT;
-		valid_data = 0x7;
+		if (mode->serial_rgb) {
+			/* Serial RGB mode */
+			word_len = LCDIF_CTRL_WORD_LENGTH_8BIT;
+			word_len |= CTRL_DATA_SWIZZLE(1);
+			bus_width = LCDIF_CTRL_LCD_DATABUS_WIDTH_8BIT;
+			valid_data = 0x7;
+		} else {
+			word_len = LCDIF_CTRL_WORD_LENGTH_24BIT;
+			bus_width = LCDIF_CTRL_LCD_DATABUS_WIDTH_24BIT;
+			valid_data = 0x7;
+		}
 		break;
 	case 18:
 		word_len = LCDIF_CTRL_WORD_LENGTH_24BIT;
@@ -136,8 +152,13 @@ static void mxs_lcd_init(GraphicDevice *panel,
 
 	mxsfb_system_setup();
 
-	writel((mode->yres << LCDIF_TRANSFER_COUNT_V_COUNT_OFFSET) | mode->xres,
-		&regs->hw_lcdif_transfer_count);
+	if (mode->serial_rgb) {
+		writel((mode->yres << LCDIF_TRANSFER_COUNT_V_COUNT_OFFSET) | mode->xres * 3,
+			&regs->hw_lcdif_transfer_count);
+	} else {
+		writel((mode->yres << LCDIF_TRANSFER_COUNT_V_COUNT_OFFSET) | mode->xres,
+			&regs->hw_lcdif_transfer_count);
+	}
 
 #ifdef CONFIG_IMX_SEC_MIPI_DSI
 	writel(LCDIF_VDCTRL0_ENABLE_PRESENT |
@@ -153,16 +174,28 @@ static void mxs_lcd_init(GraphicDevice *panel,
 	writel(mode->upper_margin + mode->lower_margin +
 		mode->vsync_len + mode->yres,
 		&regs->hw_lcdif_vdctrl1);
-	writel((mode->hsync_len << LCDIF_VDCTRL2_HSYNC_PULSE_WIDTH_OFFSET) |
-		(mode->left_margin + mode->right_margin +
-		mode->hsync_len + mode->xres),
-		&regs->hw_lcdif_vdctrl2);
+	if (mode->serial_rgb) {
+		writel((mode->hsync_len << LCDIF_VDCTRL2_HSYNC_PULSE_WIDTH_OFFSET) |
+			(mode->left_margin + mode->right_margin +
+			mode->hsync_len + mode->xres * 3),
+			&regs->hw_lcdif_vdctrl2);
+	} else {
+		writel((mode->hsync_len << LCDIF_VDCTRL2_HSYNC_PULSE_WIDTH_OFFSET) |
+			(mode->left_margin + mode->right_margin +
+			mode->hsync_len + mode->xres),
+			&regs->hw_lcdif_vdctrl2);
+	}
 	writel(((mode->left_margin + mode->hsync_len) <<
 		LCDIF_VDCTRL3_HORIZONTAL_WAIT_CNT_OFFSET) |
 		(mode->upper_margin + mode->vsync_len),
 		&regs->hw_lcdif_vdctrl3);
-	writel((0 << LCDIF_VDCTRL4_DOTCLK_DLY_SEL_OFFSET) | mode->xres,
-		&regs->hw_lcdif_vdctrl4);
+	if (mode->serial_rgb) {
+		writel((0 << LCDIF_VDCTRL4_DOTCLK_DLY_SEL_OFFSET) | mode->xres * 3,
+			&regs->hw_lcdif_vdctrl4);
+	} else {
+		writel((0 << LCDIF_VDCTRL4_DOTCLK_DLY_SEL_OFFSET) | mode->xres,
+			&regs->hw_lcdif_vdctrl4);
+	}
 
 	writel(panel->frameAdrs, &regs->hw_lcdif_cur_buf);
 	writel(panel->frameAdrs, &regs->hw_lcdif_next_buf);

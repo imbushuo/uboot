@@ -48,6 +48,7 @@ struct ctfb_res_modes {
 	int vsync_len;		/* length of vertical sync	*/
 	int sync;		/* see FB_SYNC_*		*/
 	int vmode;		/* see FB_VMODE_*		*/
+	int serial_rgb; /* serial rgb mode */
 };
 
 /******************************************************************
