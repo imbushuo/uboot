@@ -357,6 +357,9 @@ void do_enable_parallel_lcd(struct display_info_t const *dev)
 	gpio_request(IMX_GPIO_NR(4, 19), "lcd backlight");
 	gpio_direction_output(IMX_GPIO_NR(4, 19) , 1);
 
+	gpio_request(IMX_GPIO_NR(2, 21), "lcd backlight battery");
+	gpio_direction_output(IMX_GPIO_NR(2, 21) , 1);
+
 	gpio_request(LCD_CS, "lcd cs");
 	gpio_direction_output(LCD_CS, 1);
 
