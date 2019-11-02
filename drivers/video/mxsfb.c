@@ -317,8 +317,9 @@ void *video_hw_init(void)
 
 
 	/* Allocate framebuffer */
-	fb = memalign(ARCH_DMA_MINALIGN,
-		      roundup(panel.memSize, ARCH_DMA_MINALIGN));
+	// fb = memalign(ARCH_DMA_MINALIGN,
+	//	      roundup(panel.memSize, ARCH_DMA_MINALIGN));
+	fb = (void*) 0x80000000;
 	if (!fb) {
 		printf("MXSFB: Error allocating framebuffer!\n");
 		return NULL;
