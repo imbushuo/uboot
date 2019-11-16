@@ -16,9 +16,11 @@
 #include <asm/mach-imx/mxc_i2c.h>
 #include <asm/io.h>
 #include <common.h>
+#include <dm.h>
 #include <dm/uclass.h>
 #include <fsl_esdhc.h>
 #include <i2c.h>
+#include <dm/pinctrl.h>
 #include <linux/sizes.h>
 #include <linux/fb.h>
 #include <miiphy.h>
@@ -472,6 +474,7 @@ static const struct boot_mode board_boot_modes[] = {
 
 int board_late_init(void)
 {
+
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif
