@@ -65,7 +65,7 @@
 		"\0" \
 	"initrd_addr=0x86800000\0" \
 	"initrd_high=0xffffffff\0" \
-	"bootcmd_mfg=run mfgtool_args; dcache off; icache off; go 0x87000000;\0" \
+	"bootcmd_mfg=run mfgtool_args; dcache off; icache off; go 0x80200000;\0" \
 
 #if defined(CONFIG_NAND_BOOT)
 #define CONFIG_EXTRA_ENV_SETTINGS \
@@ -78,7 +78,7 @@
 		"root=ubi0:rootfs rootfstype=ubifs "		     \
 		BOOTARGS_CMA_SIZE \
 		"mtdparts=gpmi-nand:4m(boot),8m(kernel),1m(dtb),1m(misc),-(rootfs)\0"\
-	"bootcmd=dcache off; icache off; go 0x87000000\0"
+	"bootcmd=dcache off; icache off; go 0x80200000\0"
 
 #else
 #define CONFIG_EXTRA_ENV_SETTINGS \

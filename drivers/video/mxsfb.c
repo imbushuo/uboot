@@ -320,7 +320,7 @@ void *video_hw_init(void)
 	// fb = memalign(ARCH_DMA_MINALIGN,
 	//	      roundup(panel.memSize, ARCH_DMA_MINALIGN));
 	// Top assumed 0x90000000 - 4MB
-	fb = (void*) 0x8ff00000;
+	fb = (void*) 0x80000000;
 	if (!fb) {
 		printf("MXSFB: Error allocating framebuffer!\n");
 		return NULL;
