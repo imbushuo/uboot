@@ -1,0 +1,15 @@
+if MT6582_S3030
+
+config SYS_BOARD
+       default "mt6582_s3030"
+
+config SYS_VENDOR
+       default "own"
+
+config SYS_CONFIG_NAME
+       default "mt6582_s3030"
+
+config SYS_TEXT_BASE
+	default 0x87800000
+
+endif
